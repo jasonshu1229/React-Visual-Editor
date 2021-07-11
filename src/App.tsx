@@ -8,6 +8,9 @@ export default () => {
         top: 0,
     })
 
+    const posRef = useRef(pos);
+    posRef.current = pos;
+
     const moveDraggier = (() => {
 
         // 拖拽开始时div和鼠标的坐标值
@@ -21,8 +24,6 @@ export default () => {
         const mousedown = (e: React.MouseEvent<HTMLDivElement>) => {
             document.addEventListener('mousemove', mousemove);
             document.addEventListener('mouseup', mouseup);
-
-            console.log(pos);
 
             // 按下鼠标时记录 div和鼠标坐标的值
             dragData.current = {
@@ -44,6 +45,11 @@ export default () => {
                 top: durY + startTop, 
                 left: durX + startLeft,
             })
+
+            console.log({
+                pos: `${pos.top}_${pos.left}`,
+                ref: `${posRef.current.top}_${posRef.current.left}` 
+            });
         }
 
         const mouseup = (e: MouseEvent) => {
