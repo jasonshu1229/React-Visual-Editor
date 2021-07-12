@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { useCallbackRef } from './packages/useCallbackRef'
 import './app.scss'
 
 export default () => {
@@ -21,7 +22,7 @@ export default () => {
             startY: 0,
         })
 
-        const mousedown = (e: React.MouseEvent<HTMLDivElement>) => {
+        const mousedown = useCallbackRef((e: React.MouseEvent<HTMLDivElement>) => {
             document.addEventListener('mousemove', mousemove);
             document.addEventListener('mouseup', mouseup);
 
@@ -32,9 +33,9 @@ export default () => {
                 startX: e.clientX,
                 startY: e.clientY,
             }
-        }
+        })
 
-        const mousemove = (e: MouseEvent) => {
+        const mousemove = useCallbackRef((e: MouseEvent) => {
             const {startX, startY, startLeft, startTop} = dragData.current;
             const durX = e.clientX - startX;
             const durY = e.clientY - startY;
@@ -48,14 +49,14 @@ export default () => {
 
             console.log({
                 pos: `${pos.top}_${pos.left}`,
-                ref: `${posRef.current.top}_${posRef.current.left}` 
+                ref: `${posRef.current.top}_${posRef.current.left}` ,
             });
-        }
+        })
 
-        const mouseup = (e: MouseEvent) => {
+        const mouseup = useCallbackRef((e: MouseEvent) => {
             document.removeEventListener('mousemove', mousemove);
             document.removeEventListener('mouseup', mouseup);
-        }
+        })
 
         return {
             mousedown
